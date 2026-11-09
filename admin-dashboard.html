@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Moksha Motorsports | Daily Status</title>
+<style>
+:root{
+  --bg:#080a0d;--panel:#12161c;--panel2:#171c24;--line:#272e38;
+  --text:#f4f6f8;--muted:#a3adba;--green:#00c396;--red:#ff7479;--blue:#79adff;--amber:#f1bd63;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  background-color:var(--bg);
+  background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:28px 28px;min-height:100vh;font-variant-numeric:tabular-nums;
+}
+.page{max-width:1700px;margin:0 auto;padding:0 30px 54px}
+.top{min-height:108px;position:relative;display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid #1b2027;gap:20px}
+.brand h1{margin:0;font-size:clamp(24px,2.4vw,40px);line-height:1.08;font-weight:950;letter-spacing:-1.25px;text-transform:uppercase}
+.updated{margin-top:13px;font-size:14px;color:#e7ebef;font-weight:800;letter-spacing:.5px;text-transform:uppercase}
+.nav{position:absolute;left:50%;top:0;transform:translateX(-50%);display:flex;gap:5px;padding:5px;background:linear-gradient(180deg,#242831,#171b22);border:1px solid #303641;border-radius:40px;box-shadow:0 8px 24px #0008}
+.nav span{padding:11px 20px;border-radius:30px;font-size:13px;font-weight:900;white-space:nowrap}
+.nav .active{background:#f04448;box-shadow:0 3px 12px #ef444455}
+.stamp{margin-top:10px;border:1px solid #252c35;border-radius:14px;background:#141920;padding:10px 13px;color:#dce2e8;font-size:12px;font-weight:800;white-space:nowrap}
+.legend{margin:22px 0 20px;background:#12161d;border:1px solid #242a34;border-radius:17px;padding:13px 20px;display:flex;align-items:center;gap:22px;min-height:54px}
+.legend-item{display:flex;gap:9px;align-items:center;white-space:nowrap;font-size:12px;font-weight:900}
+.swatch{width:13px;height:13px;border-radius:4px;display:inline-block;flex:none}
+.green{background:#0e342d;border:1px solid #08775d}.red{background:#321a1d;border:1px solid #873d42}.grey{background:#242a32;border:1px solid #46505e}
+.overview{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+.panel{background:var(--panel);border:1px solid #242a33;border-radius:20px;padding:21px 24px;min-height:156px}
+.panel-label{font-size:12px;color:var(--muted);font-weight:900;letter-spacing:1px;text-transform:uppercase}
+.panel-main{display:flex;align-items:baseline;gap:12px;margin-top:12px}
+.panel-main strong{font-size:clamp(30px,4vw,48px);line-height:1;font-weight:950;letter-spacing:-1px}
+.panel-main span{font-size:13px;color:var(--muted);font-weight:700}
+.panel-foot{margin-top:11px;color:var(--muted);font-size:12px}
+.deadline .panel-main strong{color:var(--blue)}
+.status-board{background:#12161c;border:1px solid #242a33;border-radius:22px;padding:22px 24px 20px;box-shadow:0 15px 40px #0003}
+.board-head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:17px}
+.board-head h2{margin:0;font-size:17px;text-transform:uppercase;font-weight:950;letter-spacing:.4px}
+.asof{color:var(--muted);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.6px}
+.table-wrap{overflow-x:auto;border:1px solid #252c36;border-radius:13px}
+table{width:100%;border-collapse:collapse;min-width:720px}
+thead{background:#203b68}
+th{padding:14px 15px;text-align:left;font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.25px;color:#fff}
+td{padding:17px 15px;border-top:1px solid #292f39;font-size:14px;color:#e8edf2}
+td.num,th.num{text-align:center}
+tbody tr{background:#12161c}
+tbody tr+tr{background:#151a22}
+.name{font-weight:900;font-size:15px}
+.value-good{color:var(--green);font-weight:900}.value-bad{color:var(--red);font-weight:900}.value-muted{color:#8e99a8;font-weight:800}
+.status-pill{display:inline-block;padding:6px 10px;border-radius:18px;font-size:10px;line-height:1.2;font-weight:950;letter-spacing:.35px;background:#202731;color:#c9d2dc;border:1px solid #37414f;white-space:nowrap}
+.status-pill.progress{background:#2c2417;border-color:#71552a;color:#f5c56e}
+.status-pill.pending{background:#17253a;border-color:#31527c;color:#9bc3ff}
+.row-note{display:block;margin-top:5px;color:#9ba6b4;font-size:11px;max-width:360px;line-height:1.4}
+.footer{display:flex;justify-content:space-between;gap:16px;margin:14px 2px 0;color:#788492;font-size:11px;line-height:1.45}
+.error{display:none;margin:16px 0;padding:14px;border:1px solid #873d42;border-radius:12px;background:#321a1d;color:#ffdfe1}
+@media(max-width:800px){.page{padding:0 15px 36px}.top{padding-top:58px;min-height:150px}.nav{left:0;transform:none;max-width:100%;overflow:auto}.stamp{font-size:10px}.overview{grid-template-columns:1fr}.legend{overflow-x:auto}.status-board{padding:17px 13px}.footer{flex-direction:column}}
+@media(max-width:460px){.top{display:block}.stamp{display:inline-block;margin:14px 0}.brand h1{white-space:normal}.panel{padding:18px}}
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="top">
+    <div class="brand">
+      <h1 id="page-title">MOKSHA | DAILY STATUS</h1>
+      <div class="updated" id="updated-line">TODAY: LOADING…</div>
+    </div>
+    <nav class="nav" aria-label="Dashboard navigation"><span class="active">▦ &nbsp; STATUS</span></nav>
+    <div class="stamp">ENGINEERING ADMIN</div>
+  </header>
+
+  <div class="legend" aria-label="Status legend">
+    <div class="legend-item"><i class="swatch green"></i> PASSED</div>
+    <div class="legend-item"><i class="swatch red"></i> FAILED</div>
+    <div class="legend-item"><i class="swatch grey"></i> NOT YET RECORDED</div>
+  </div>
+
+  <main>
+    <section class="overview" aria-label="Today and deadline">
+      <article class="panel">
+        <div class="panel-label">TODAY'S STATUS DATE</div>
+        <div class="panel-main"><strong id="today-date">—</strong><span id="today-day">—</span></div>
+        <div class="panel-foot">Current project status snapshot</div>
+      </article>
+      <article class="panel deadline">
+        <div class="panel-label">FINAL DEADLINE</div>
+        <div class="panel-main"><strong id="deadline-date">—</strong><span id="days-left">—</span></div>
+        <div class="panel-foot">Target date for project readiness</div>
+      </article>
+    </section>
+
+    <section class="status-board" aria-labelledby="inspection-title">
+      <div class="board-head">
+        <h2 id="inspection-title">Technical Inspection Status</h2>
+        <div class="asof" id="asof">AS OF —</div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Inspection</th>
+              <th class="num">Total</th>
+              <th class="num">Passed</th>
+              <th class="num">Failed</th>
+              <th class="num">Remaining</th>
+              <th>Current status</th>
+            </tr>
+          </thead>
+          <tbody id="inspection-rows">
+            <tr><td colspan="6">Loading status…</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="footer">
+        <span>Only the current status and deadline are shown here.</span>
+        <span>Update the figures later in <strong>admin-dashboard.json</strong>.</span>
+      </div>
+    </section>
+    <div class="error" id="load-error">Could not load admin-dashboard.json. Keep the HTML and JSON files in the same folder and open the page using Live Server or GitHub Pages.</div>
+  </main>
+</div>
+<script>
+(async function(){
+  const errorBox = document.getElementById('load-error');
+  const formatDate = (iso, options) => new Date(iso + 'T12:00:00').toLocaleDateString('en-IN', options);
+  const show = (value) => value === null || value === undefined ? '—' : value.toLocaleString('en-IN');
+  try {
+    const response = await fetch('./admin-dashboard.json', {cache:'no-store'});
+    if (!response.ok) throw new Error('JSON fetch failed: ' + response.status);
+    const data = await response.json();
+    document.title = data.title || 'Moksha Motorsports | Daily Status';
+    document.getElementById('page-title').textContent = data.title || 'MOKSHA | DAILY STATUS';
+
+    const today = new Date(data.today + 'T12:00:00');
+    const deadline = new Date(data.deadline + 'T12:00:00');
+    const daysLeft = Math.max(0, Math.ceil((deadline - today) / 86400000));
+    document.getElementById('today-date').textContent = formatDate(data.today, {day:'2-digit',month:'short',year:'numeric'});
+    document.getElementById('today-day').textContent = formatDate(data.today, {weekday:'long'});
+    document.getElementById('deadline-date').textContent = formatDate(data.deadline, {day:'2-digit',month:'short',year:'numeric'});
+    document.getElementById('days-left').textContent = daysLeft + ' days remaining';
+    document.getElementById('updated-line').textContent = 'TODAY: ' + formatDate(data.today, {day:'2-digit',month:'short',year:'numeric'}).toUpperCase();
+    document.getElementById('asof').textContent = 'AS OF ' + formatDate(data.today, {day:'2-digit',month:'short',year:'numeric'}).toUpperCase();
+
+    const rows = data.inspections.map(item => {
+      const statusClass = item.status === 'IN PROGRESS' ? 'progress' : 'pending';
+      return `<tr>
+        <td><span class="name">${item.name}</span><span class="row-note">${item.statusNote || ''}</span></td>
+        <td class="num">${show(item.total)}</td>
+        <td class="num value-good">${show(item.passed)}</td>
+        <td class="num value-bad">${show(item.failed)}</td>
+        <td class="num value-muted">${show(item.remaining)}</td>
+        <td><span class="status-pill ${statusClass}">${item.status}</span></td>
+      </tr>`;
+    }).join('');
+    document.getElementById('inspection-rows').innerHTML = rows;
+  } catch (error) {
+    console.error(error);
+    errorBox.style.display = 'block';
+    document.getElementById('inspection-rows').innerHTML = '<tr><td colspan="6">Status data could not be loaded.</td></tr>';
+  }
+})();
+</script>
+</body>
+</html>
