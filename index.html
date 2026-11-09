@@ -1,166 +1,53 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Moksha Motorsports | Daily Status</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Moksha Motorsports | Test Guide & Daily Status</title>
 <style>
-:root{
-  --bg:#080a0d;--panel:#12161c;--panel2:#171c24;--line:#272e38;
-  --text:#f4f6f8;--muted:#a3adba;--green:#00c396;--red:#ff7479;--blue:#79adff;--amber:#f1bd63;
-}
-*{box-sizing:border-box}
-body{
-  margin:0;color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
-  background-color:var(--bg);
-  background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
-  background-size:28px 28px;min-height:100vh;font-variant-numeric:tabular-nums;
-}
-.page{max-width:1700px;margin:0 auto;padding:0 30px 54px}
-.top{min-height:108px;position:relative;display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid #1b2027;gap:20px}
-.brand h1{margin:0;font-size:clamp(24px,2.4vw,40px);line-height:1.08;font-weight:950;letter-spacing:-1.25px;text-transform:uppercase}
-.updated{margin-top:13px;font-size:14px;color:#e7ebef;font-weight:800;letter-spacing:.5px;text-transform:uppercase}
-.nav{position:absolute;left:50%;top:0;transform:translateX(-50%);display:flex;gap:5px;padding:5px;background:linear-gradient(180deg,#242831,#171b22);border:1px solid #303641;border-radius:40px;box-shadow:0 8px 24px #0008}
-.nav span{padding:11px 20px;border-radius:30px;font-size:13px;font-weight:900;white-space:nowrap}
-.nav .active{background:#f04448;box-shadow:0 3px 12px #ef444455}
-.stamp{margin-top:10px;border:1px solid #252c35;border-radius:14px;background:#141920;padding:10px 13px;color:#dce2e8;font-size:12px;font-weight:800;white-space:nowrap}
-.legend{margin:22px 0 20px;background:#12161d;border:1px solid #242a34;border-radius:17px;padding:13px 20px;display:flex;align-items:center;gap:22px;min-height:54px}
-.legend-item{display:flex;gap:9px;align-items:center;white-space:nowrap;font-size:12px;font-weight:900}
-.swatch{width:13px;height:13px;border-radius:4px;display:inline-block;flex:none}
-.green{background:#0e342d;border:1px solid #08775d}.red{background:#321a1d;border:1px solid #873d42}.grey{background:#242a32;border:1px solid #46505e}
-.overview{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
-.panel{background:var(--panel);border:1px solid #242a33;border-radius:20px;padding:21px 24px;min-height:156px}
-.panel-label{font-size:12px;color:var(--muted);font-weight:900;letter-spacing:1px;text-transform:uppercase}
-.panel-main{display:flex;align-items:baseline;gap:12px;margin-top:12px}
-.panel-main strong{font-size:clamp(30px,4vw,48px);line-height:1;font-weight:950;letter-spacing:-1px}
-.panel-main span{font-size:13px;color:var(--muted);font-weight:700}
-.panel-foot{margin-top:11px;color:var(--muted);font-size:12px}
-.deadline .panel-main strong{color:var(--blue)}
-.status-board{background:#12161c;border:1px solid #242a33;border-radius:22px;padding:22px 24px 20px;box-shadow:0 15px 40px #0003}
-.board-head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:17px}
-.board-head h2{margin:0;font-size:17px;text-transform:uppercase;font-weight:950;letter-spacing:.4px}
-.asof{color:var(--muted);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.6px}
-.table-wrap{overflow-x:auto;border:1px solid #252c36;border-radius:13px}
-table{width:100%;border-collapse:collapse;min-width:720px}
-thead{background:#203b68}
-th{padding:14px 15px;text-align:left;font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.25px;color:#fff}
-td{padding:17px 15px;border-top:1px solid #292f39;font-size:14px;color:#e8edf2}
-td.num,th.num{text-align:center}
-tbody tr{background:#12161c}
-tbody tr+tr{background:#151a22}
-.name{font-weight:900;font-size:15px}
-.value-good{color:var(--green);font-weight:900}.value-bad{color:var(--red);font-weight:900}.value-muted{color:#8e99a8;font-weight:800}
-.status-pill{display:inline-block;padding:6px 10px;border-radius:18px;font-size:10px;line-height:1.2;font-weight:950;letter-spacing:.35px;background:#202731;color:#c9d2dc;border:1px solid #37414f;white-space:nowrap}
-.status-pill.progress{background:#2c2417;border-color:#71552a;color:#f5c56e}
-.status-pill.pending{background:#17253a;border-color:#31527c;color:#9bc3ff}
-.row-note{display:block;margin-top:5px;color:#9ba6b4;font-size:11px;max-width:360px;line-height:1.4}
-.footer{display:flex;justify-content:space-between;gap:16px;margin:14px 2px 0;color:#788492;font-size:11px;line-height:1.45}
-.error{display:none;margin:16px 0;padding:14px;border:1px solid #873d42;border-radius:12px;background:#321a1d;color:#ffdfe1}
-@media(max-width:800px){.page{padding:0 15px 36px}.top{padding-top:58px;min-height:150px}.nav{left:0;transform:none;max-width:100%;overflow:auto}.stamp{font-size:10px}.overview{grid-template-columns:1fr}.legend{overflow-x:auto}.status-board{padding:17px 13px}.footer{flex-direction:column}}
-@media(max-width:460px){.top{display:block}.stamp{display:inline-block;margin:14px 0}.brand h1{white-space:normal}.panel{padding:18px}}
-</style>
-</head>
-<body>
-<div class="page">
-  <header class="top">
-    <div class="brand">
-      <h1 id="page-title">MOKSHA | DAILY STATUS</h1>
-      <div class="updated" id="updated-line">TODAY: LOADING…</div>
-    </div>
-    <nav class="nav" aria-label="Dashboard navigation"><span class="active">▦ &nbsp; STATUS</span></nav>
-    <div class="stamp">ENGINEERING ADMIN</div>
-  </header>
-
-  <div class="legend" aria-label="Status legend">
-    <div class="legend-item"><i class="swatch green"></i> PASSED</div>
-    <div class="legend-item"><i class="swatch red"></i> FAILED</div>
-    <div class="legend-item"><i class="swatch grey"></i> NOT YET RECORDED</div>
-  </div>
-
-  <main>
-    <section class="overview" aria-label="Today and deadline">
-      <article class="panel">
-        <div class="panel-label">TODAY'S STATUS DATE</div>
-        <div class="panel-main"><strong id="today-date">—</strong><span id="today-day">—</span></div>
-        <div class="panel-foot">Current project status snapshot</div>
-      </article>
-      <article class="panel deadline">
-        <div class="panel-label">FINAL DEADLINE</div>
-        <div class="panel-main"><strong id="deadline-date">—</strong><span id="days-left">—</span></div>
-        <div class="panel-foot">Target date for project readiness</div>
-      </article>
-    </section>
-
-    <section class="status-board" aria-labelledby="inspection-title">
-      <div class="board-head">
-        <h2 id="inspection-title">Technical Inspection Status</h2>
-        <div class="asof" id="asof">AS OF —</div>
-      </div>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Inspection</th>
-              <th class="num">Total</th>
-              <th class="num">Passed</th>
-              <th class="num">Failed</th>
-              <th class="num">Remaining</th>
-              <th>Current status</th>
-            </tr>
-          </thead>
-          <tbody id="inspection-rows">
-            <tr><td colspan="6">Loading status…</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="footer">
-        <span>Only the current status and deadline are shown here.</span>
-        <span>Update the figures later in <strong>admin-dashboard.json</strong>.</span>
-      </div>
-    </section>
-    <div class="error" id="load-error">Could not load admin-dashboard.json. Keep the HTML and JSON files in the same folder and open the page using Live Server or GitHub Pages.</div>
-  </main>
-</div>
+:root{--bg:#080a0d;--panel:#12161c;--line:#2b313b;--text:#f4f6f8;--muted:#a3adba;--navy:#203b68;--green:#00c396;--red:#ff7479;--blue:#79adff;--amber:#f1bd63}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px/1.45 Inter,system-ui,Segoe UI,Arial,sans-serif;background-image:linear-gradient(#ffffff08 1px,transparent 1px),linear-gradient(90deg,#ffffff08 1px,transparent 1px);background-size:28px 28px;font-variant-numeric:tabular-nums}
+.page{max-width:1700px;margin:auto;padding:28px 30px 50px}.head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:24px}
+.eyebrow{font-size:12px;letter-spacing:.16em;color:#aeb8c5;font-weight:800;margin:0 0 8px}.head h1{font-size:clamp(26px,3vw,42px);line-height:1;margin:0;font-weight:900;letter-spacing:-.04em;text-transform:uppercase}.dates{display:flex;gap:10px}.date{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 16px;min-width:145px}.date label{display:block;color:var(--muted);font-size:10px;font-weight:800;letter-spacing:.12em}.date strong{display:block;font-size:19px;margin-top:4px}.date.deadline{border-color:#34517d}.date.deadline strong{color:var(--blue)}
+.summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:20px 0}.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px}.card label{display:block;color:var(--muted);font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}.card strong{display:block;font-size:25px;margin-top:4px}.card small{color:var(--muted)}.good{color:var(--green)}.bad{color:var(--red)}.blue{color:var(--blue)}.metric{text-align:right}
+.legend{display:flex;gap:18px;align-items:center;flex-wrap:wrap;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:13px 16px;margin:20px 0}.legend span{display:flex;align-items:center;gap:8px;font-weight:800;font-size:12px;color:#e7ebf0}.swatch{width:11px;height:11px;border-radius:3px;display:inline-block}.tablebox{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden}.tablehead{padding:16px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}.tablehead h2{margin:0;font-size:17px;text-transform:uppercase;letter-spacing:.04em}.tablehead p{margin:4px 0 0;color:var(--muted);font-size:12px}
+.scroll{overflow:auto}table{width:100%;min-width:1180px;border-collapse:collapse;table-layout:fixed}col.test{width:150px}col.unit{width:85px}col.desc{width:25%}col.rule{width:25%}col.n{width:85px}col.target{width:105px}col.status{width:200px}
+thead th{background:#1b2638;color:white;text-align:center;padding:12px 9px;font-size:13px;text-transform:uppercase;letter-spacing:.035em;border:1px solid #3a4b63;position:sticky;top:0}
+tbody td{padding:12px 10px;border:1px solid var(--line);vertical-align:middle;background:#10151c}tbody tr:nth-child(even) td{background:#141a22}tbody tr:hover td{background:#1b2430}
+td.name{font-weight:800}td.center{text-align:center}td.num{text-align:center;font-weight:700}td.status{font-size:12px;font-weight:800} .pill{display:inline-block;padding:5px 9px;border-radius:5px;background:#252c37;color:#e2e8f0;font-size:11px;font-weight:800}.pill.pass{background:#063c31;color:#5be0ba}.pill.wait{background:#493719;color:#ffd17d}.pill.fail{background:#481e25;color:#ff9aa2}
+.note{margin-top:14px;color:var(--muted);font-size:11px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+@media(max-width:850px){.page{padding:20px 12px}.summary{grid-template-columns:1fr}.dates{width:100%}.date{flex:1}.head h1{font-size:28px}}
+@media print{body{background:white;color:#111}.page{max-width:none;padding:0}.card,.date,.tablebox{background:white;border-color:#bbb}.tablebox{overflow:visible}table{min-width:0;font-size:10px}thead th{position:static}}
+</style></head>
+<body><main class="page">
+<header class="head"><div><p class="eyebrow">MOKSHA MOTORSPORTS · eBAJA 2026</p><h1>Test Guide &amp; Current Status</h1></div><div class="dates"><div class="date"><label>TODAY</label><strong id="today">09 NOV 2026</strong></div><div class="date deadline"><label>FINAL DEADLINE</label><strong>01 JAN 2027</strong><small id="days" style="color:var(--muted)">53 days remaining</small></div></div></header>
+<section class="summary">
+<div class="card"><div><label>Mechanical TI · passed</label><strong class="good">55 / 167</strong><small>9 failed · 103 remaining</small></div><div class="metric"><label>Completion</label><strong class="good">33%</strong></div></div>
+<div class="card"><div><label>Mechanical TI · failed</label><strong class="bad">9</strong><small>Requires corrective action</small></div><div class="metric"><label>Target</label><strong>All pass</strong></div></div>
+<div class="card"><div><label>Electrical TI</label><strong class="blue">115 checks</strong><small>62 low voltage + 53 high voltage</small></div><div class="metric"><label>Breakdown</label><strong style="font-size:15px">To be entered</strong></div></div>
+</section>
+<div class="legend"><span><i class="swatch" style="background:var(--green)"></i> PASSED</span><span><i class="swatch" style="background:var(--red)"></i> FAILED</span><span><i class="swatch" style="background:var(--amber)"></i> NOT YET MEASURED</span><span><i class="swatch" style="background:var(--blue)"></i> TARGET</span></div>
+<section class="tablebox"><div class="tablehead"><div><h2>Vehicle test guide</h2><p>Record runs and results when testing takes place. No test results have been entered yet.</p></div><div style="color:var(--muted);font-size:12px">Updated <span id="updated">09 NOV 2026</span></div></div>
+<div class="scroll"><table><colgroup><col class="test"><col class="unit"><col class="desc"><col class="rule"><col class="n"><col class="n"><col class="n"><col class="target"><col class="status"></colgroup>
+<thead><tr><th>Test</th><th>Unit</th><th>What to put in result</th><th>Target / pass rule</th><th>Runs logged</th><th>Passes</th><th>Fails</th><th>Target</th><th>Current status</th></tr></thead>
+<tbody id="rows"></tbody></table></div></section>
+<footer class="note"><span>Daily administrative view · test records will be added when available.</span><span>Deadline: <b style="color:var(--blue)">01 January 2027</b></span></footer>
+</main>
 <script>
-(async function(){
-  const errorBox = document.getElementById('load-error');
-  const formatDate = (iso, options) => new Date(iso + 'T12:00:00').toLocaleDateString('en-IN', options);
-  const show = (value) => value === null || value === undefined ? '—' : value.toLocaleString('en-IN');
-  try {
-    const response = await fetch('./admin-dashboard.json', {cache:'no-store'});
-    if (!response.ok) throw new Error('JSON fetch failed: ' + response.status);
-    const data = await response.json();
-    document.title = data.title || 'Moksha Motorsports | Daily Status';
-    document.getElementById('page-title').textContent = data.title || 'MOKSHA | DAILY STATUS';
-
-    const today = new Date(data.today + 'T12:00:00');
-    const deadline = new Date(data.deadline + 'T12:00:00');
-    const daysLeft = Math.max(0, Math.ceil((deadline - today) / 86400000));
-    document.getElementById('today-date').textContent = formatDate(data.today, {day:'2-digit',month:'short',year:'numeric'});
-    document.getElementById('today-day').textContent = formatDate(data.today, {weekday:'long'});
-    document.getElementById('deadline-date').textContent = formatDate(data.deadline, {day:'2-digit',month:'short',year:'numeric'});
-    document.getElementById('days-left').textContent = daysLeft + ' days remaining';
-    document.getElementById('updated-line').textContent = 'TODAY: ' + formatDate(data.today, {day:'2-digit',month:'short',year:'numeric'}).toUpperCase();
-    document.getElementById('asof').textContent = 'AS OF ' + formatDate(data.today, {day:'2-digit',month:'short',year:'numeric'}).toUpperCase();
-
-    const rows = data.inspections.map(item => {
-      const statusClass = item.status === 'IN PROGRESS' ? 'progress' : 'pending';
-      return `<tr>
-        <td><span class="name">${item.name}</span><span class="row-note">${item.statusNote || ''}</span></td>
-        <td class="num">${show(item.total)}</td>
-        <td class="num value-good">${show(item.passed)}</td>
-        <td class="num value-bad">${show(item.failed)}</td>
-        <td class="num value-muted">${show(item.remaining)}</td>
-        <td><span class="status-pill ${statusClass}">${item.status}</span></td>
-      </tr>`;
-    }).join('');
-    document.getElementById('inspection-rows').innerHTML = rows;
-  } catch (error) {
-    console.error(error);
-    errorBox.style.display = 'block';
-    document.getElementById('inspection-rows').innerHTML = '<tr><td colspan="6">Status data could not be loaded.</td></tr>';
-  }
-})();
-</script>
-</body>
-</html>
+const guide=[
+["Acceleration","s","Time over 46 m (150 ft) from the start line. Also note the 30.5 m (100 ft) split.","Record only; lower is better. The straight must be flat and dead-straight.","Measured","Not measured"],
+["Brake test","m","Stopping distance after the 61 m speed trap. Note entry speed in the remarks.","Entry 40–60 km/h at 61 m; stop within 8 m (26 ft).","Pass","Not measured"],
+["Sled pull","m or s","Distance pulled, or time over the course. Note which measurement was used.","Record only; stay straight within the tractor corridor.","Measured","Not measured"],
+["Maneuverability","s","Lap time on the 30 × 40 m pad. Note any cones hit in the remarks.","Record the time; complete the course.","Measured","Not measured"],
+["Rock crawl","s","Time through the rock trench. Note if the vehicle gets stuck.","Complete without stalling.","Measured","Not measured"],
+["Mud bog","s","Time through the mud trench. Note water level (about ¼ tyre).","Complete the course; water stays in the pit.","Measured","Not measured"],
+["Suspension","s","Time for rocks, link, logs and mound in one pass.","Complete without damage.","Measured","Not measured"],
+["Endurance (4 h)","laps","Laps completed. Note start/stop time and any stops.","Run the full 4 h.","Measured","Not measured"],
+["Rainstorm","Y/N","Is the vehicle still running after 30 seconds of water from every side?","Yes = still running after 30 seconds.","Pass","Not measured"],
+["Top speed","km/h","Record the highest verified speed and test conditions.","Record the result; numerical pass target to be confirmed by the team.","Measured","Not measured"],
+["Mechanical TI","checks","Record passed, failed and remaining inspection checks. Add remarks for failed checks.","All checks passed.","Pass","55 passed · 9 failed · 103 remaining"],
+["Electrical TI","checks","Record passed, failed and remaining LV and HV inspection checks. Add remarks for failed checks.","All checks passed.","Pass","115 total (62 LV + 53 HV); pass/fail breakdown not yet entered"]
+];
+const rows=document.getElementById('rows');
+guide.forEach((r,i)=>{const tr=document.createElement('tr');const vals=[r[0],r[1],r[2],r[3],i>9?'1':'0',i===10?'55':i===11?'—':'0',i===10?'9':i===11?'—':'0',r[4],r[5]];vals.forEach((v,j)=>{const td=document.createElement('td');td.textContent=v;if(j===0)td.className='name';if(j===1||j>=4&&j<=7)td.classList.add('center');if(j>=4&&j<=6)td.classList.add('num');if(j===8)td.className='status';tr.appendChild(td)});rows.appendChild(tr)});
+const d=new Date();const fmt=new Intl.DateTimeFormat('en-GB',{day:'2-digit',month:'short',year:'numeric'});document.getElementById('today').textContent=fmt.format(d).toUpperCase();document.getElementById('updated').textContent=fmt.format(d).toUpperCase();const deadline=new Date('2027-01-01T00:00:00');const days=Math.ceil((deadline-new Date(d.getFullYear(),d.getMonth(),d.getDate()))/86400000);document.getElementById('days').textContent=days+' days remaining';
+</script></body></html>
