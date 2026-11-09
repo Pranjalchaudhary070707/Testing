@@ -1,17 +1,18 @@
 {
-  "title": "MOKSHA MOTORSports | DAILY STATUS",
+  "project": "Moksha Motorsports",
+  "event": "eBAJA 2026",
+  "pageTitle": "Test Guide & Current Status",
   "today": "2026-11-09",
   "deadline": "2027-01-01",
   "deadlineLabel": "01 JAN 2027",
+  "lastUpdated": "2026-11-09",
   "inspections": [
     {
       "name": "Mechanical TI",
       "total": 167,
       "passed": 55,
       "failed": 9,
-      "remaining": 103,
-      "status": "IN PROGRESS",
-      "statusNote": "103 checks are still remaining. Failed checks are shown separately."
+      "remaining": 103
     },
     {
       "name": "Electrical TI",
@@ -19,9 +20,142 @@
       "passed": null,
       "failed": null,
       "remaining": null,
-      "status": "INSPECTION DONE · BREAKDOWN PENDING",
-      "statusNote": "The team has completed the inspection. Pass, fail and remaining counts have not yet been entered."
+      "split": "62 LV + 53 HV",
+      "status": "Breakdown pending"
     }
   ],
-  "lastUpdated": "2026-11-09T19:48:00+05:30"
+  "tests": [
+    {
+      "test": "Acceleration",
+      "unit": "s",
+      "result": "Time over 46 m (150 ft) from the start line. Also note the 30.5 m (100 ft) split.",
+      "passRule": "Record only; lower is better. The straight must be flat and dead-straight.",
+      "runs": 0,
+      "passes": 0,
+      "fails": 0,
+      "target": "Measured",
+      "status": "Not measured"
+    },
+    {
+      "test": "Brake test",
+      "unit": "m",
+      "result": "Stopping distance after the 61 m speed trap. Note entry speed in the remarks.",
+      "passRule": "Entry 40–60 km/h at 61 m; stop within 8 m (26 ft).",
+      "runs": 0,
+      "passes": 0,
+      "fails": 0,
+      "target": "Pass",
+      "status": "Not measured"
+    },
+    {
+      "test": "Sled pull",
+      "unit": "m or s",
+      "result": "Distance pulled, or time over the course. Note which measurement was used.",
+      "passRule": "Record only; stay straight within the tractor corridor.",
+      "runs": 0,
+      "passes": 0,
+      "fails": 0,
+      "target": "Measured",
+      "status": "Not measured"
+    },
+    {
+      "test": "Maneuverability",
+      "unit": "s",
+      "result": "Lap time on the 30 × 40 m pad. Note any cones hit in the remarks.",
+      "passRule": "Record the time; complete the course.",
+      "runs": 0,
+      "passes": 0,
+      "fails": 0,
+      "target": "Measured",
+      "status": "Not measured"
+    },
+    {
+      "test": "Rock crawl",
+      "unit": "s",
+      "result": "Time through the rock trench. Note if the vehicle gets stuck.",
+      "passRule": "Complete without stalling.",
+      "runs": 0,
+      "passes": 0,
+      "fails": 0,
+      "target": "Measured",
+      "status": "Not measured"
+    },
+    {
+      "test": "Mud bog",
+      "unit": "s",
+      "result": "Time through the mud trench. Note water level (about ¼ tyre).",
+      "passRule": "Complete the course; water stays in the pit.",
+      "runs": 0,
+      "passes": 0,
+      "fails": 0,
+      "target": "Measured",
+      "status": "Not measured"
+    },
+    {
+      "test": "Suspension",
+      "unit": "s",
+      "result": "Time for rocks, link, logs and mound in one pass.",
+      "passRule": "Complete without damage.",
+      "runs": 0,
+      "passes": 0,
+      "fails": 0,
+      "target": "Measured",
+      "status": "Not measured"
+    },
+    {
+      "test": "Endurance (4 h)",
+      "unit": "laps",
+      "result": "Laps completed. Note start/stop time and any stops.",
+      "passRule": "Run the full 4 h.",
+      "runs": 0,
+      "passes": 0,
+      "fails": 0,
+      "target": "Measured",
+      "status": "Not measured"
+    },
+    {
+      "test": "Rainstorm",
+      "unit": "Y/N",
+      "result": "Is the vehicle still running after 30 seconds of water from every side?",
+      "passRule": "Yes = still running after 30 seconds.",
+      "runs": 0,
+      "passes": 0,
+      "fails": 0,
+      "target": "Pass",
+      "status": "Not measured"
+    },
+    {
+      "test": "Top speed",
+      "unit": "km/h",
+      "result": "Record the highest verified speed and test conditions.",
+      "passRule": "Record the result; numerical pass target to be confirmed by the team.",
+      "runs": 0,
+      "passes": 0,
+      "fails": 0,
+      "target": "Measured",
+      "status": "Not measured"
+    },
+    {
+      "test": "Mechanical TI",
+      "unit": "checks",
+      "result": "Record passed, failed and remaining inspection checks. Add remarks for failed checks.",
+      "passRule": "All checks passed.",
+      "runs": 1,
+      "passes": 55,
+      "fails": 9,
+      "target": "Pass",
+      "status": "55 passed · 9 failed · 103 remaining (167 total)"
+    },
+    {
+      "test": "Electrical TI",
+      "unit": "checks",
+      "result": "Record passed, failed and remaining LV and HV inspection checks. Add remarks for failed checks.",
+      "passRule": "All checks passed.",
+      "runs": 1,
+      "passes": null,
+      "fails": null,
+      "target": "Pass",
+      "status": "115 total (62 LV + 53 HV); pass/fail breakdown not yet entered"
+    }
+  ]
 }
